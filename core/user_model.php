@@ -38,6 +38,18 @@ class User {
 							
 			$user_data = $this->db->get_results($query);
 		}
+		else
+		{
+			if ( ! empty( $_POST["name"] )  && ! empty( $_POST["password"] ) )
+			{
+				$query = "SELECT id, name 
+							FROM Users 
+							WHERE name = " . $this->db->quote($_POST["name"]) . "AND password =".  $this->db->quote(md5($_POST["password"]));
+
+				$user_data = $this->db->get_results($query);
+			}
+		}
+		
 		
 		return $user_data;
 		

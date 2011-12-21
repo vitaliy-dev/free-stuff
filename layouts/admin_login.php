@@ -27,13 +27,66 @@
 		  <div class="span16">Logo </div> 
 	  </div>
 	  <div class="row">
-		  <div class="span16">
+		  <div class="span5">
 			  <form method="post" action="/administrator.php">
-				  <input type="hidden" name="key" value="<?php echo?>">
+				<input type="hidden" name="key" value="<?php echo $key?>"/>
+				<input type="hidden" name="action" value="login"/>
+				
+				<div class="row">
+					
+					<div class="span5 offset4">
+
+						<div class="clearfix <?php echo $error_text != '' ? "error" : '';  ?>">
+							<label for="name_input">${{input_name}}</label>
+							<div class="input">
+							<input id="name_input" class="xlarge error" type="text" size="30" name="name">
+							<?php
+								if ( !empty ( $error_text ) )
+								{
+									echo '<span class="help-inline error">'.$error_text.'</span>';
+								}
+							?>	
+							</div>
+						</div>						
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="span5 offset4">
+
+						<div class="clearfix <?php echo $error_text != '' ? "error" : '';  ?>">
+							<label for="pass_input">${{input_pass}}</label>
+							<div class="input">
+							<input id="name_input" class="xlarge error" type="password" size="30" name="password">
+							<?php
+								if ( !empty ( $error_text ) )
+								{
+									echo '<span class="help-inline error">'.$error_text.'</span>';
+								}
+							?>	
+							</div>
+						</div>						
+					</div>
+				</div>	
+
+				<div class="row">
+					<div class="span5 offset4">
+				
+							<label for="stay_login">${{stay_login}}</label>
+							<div class="input">
+							<input id="stay_login" class="" type="checkbox"  name="stay_login">
+							</div>
+						</div>						
+				</div>
+				
+				
+				<div class="row">				
+					<div class="span5 offset6">
+						<input class="btn large primary" type="submit" name="submit" value="${{input_submit}}"></input>
+					</div>
+				</div>
+				  
 			  </form>
-			<?php 
-			echo $content;
-			?>
 		  </div>
 	  </div>
 	  <div class="row">
