@@ -128,43 +128,21 @@ switch ($action) {
 
 	case 'add_new_entry':
 		
-		$offsset = 0;
-		
-		if ( ! empty( $_GET['start_offset'] ) )
+		if ( empty ( $_POST['submit'] ) )
 		{
-			$offsset = $_GET['start_offset']; 
+			$key =  uniqid();
+			$error_text = '';
+			$_SESSION['add_new_entry'] = $key;
+			$layout = "admin_add_entry.php";
 		}
-		
-		$query = "SELECT *
-					FROM Entries
-					LIMIT ". $DB->escape($offsset). " , 20";
-		
-		$results = $DB->get_results($query);
-		
-		$content = ' 
-		<table class="bordered-table zebra-striped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>${{title}}</th>
-            <th>${{updated}}</th>
-			<th>${{remove}}</th>
-			<th>${{edit}}</th>
-          </tr>
-        </thead>
-        <tbody>';
-		
-		foreach ($results as $value) 
+		else
 		{
-			$content .= "<tr><td>{$value['id']}</td><td>{$value['title']}</td><td>". $value['updated'] ."</td>
-					<td><a href=\"/administrator.php?action=remove_entry&id=". $value['id'] ."\">". '${{remove}}'."</a></td>
-					<td><a href=\"/administrator.php?action=edit_entry&id=". $value['id'] ."\">". '${{edit}}'."</a></td>
-					</tr>";
+			$title_input = htmlspecialchars($_POST('title_input'));
+			
+			
 		}
-		
-		$content .="</tbody></table>";
-		
-		$layout = "admin.php";
+
+
 		
 		break;		
 		
