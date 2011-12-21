@@ -54,6 +54,13 @@ switch ($action) {
 				$error_text = 'Not correct user name or password';
 				$_SESSION['login'] = $key;
 			}
+			else
+			{
+				if ( $_POST['stay_login'] == true )
+				{
+					
+				}
+			}
 				
 		}
 

@@ -71,13 +71,15 @@
 
 				<div class="row">
 					<div class="span5 offset4">
-				
-							<label for="stay_login">${{stay_login}}</label>
-							<div class="input">
-							<input id="stay_login" class="" type="checkbox"  name="stay_login">
-							</div>
+						<div class="clearfix">
+						<label for="stay_login">${{stay_login}}</label>
+						<div class="input">
+						<input type="checkbox" value="" id="stay_login" name="stay_login">
 						</div>						
+						</div>						
+					</div>
 				</div>
+				
 				
 				
 				<div class="row">				
