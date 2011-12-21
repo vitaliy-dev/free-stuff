@@ -4,6 +4,8 @@ include_once 'core/db.php';
 include_once 'core/localization.php';
 include_once 'core/user_model.php';
 
+$DB = Db::getInstance();
+
 $User = new User();
 
 if ( empty ( $URL ) )

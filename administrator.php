@@ -5,36 +5,29 @@ include_once 'core/db.php';
 include_once 'core/localization.php';
 include_once 'core/user_model.php';
 
-//		$_COOKIE["name"] = "alex";
-//		$_COOKIE["password"] = "ece94adbd2b8512504319ea60f8468b2";
 
-$action = '';
+$DB = Db::getInstance();
+$action = 'view_list';
 
-if ( ! empty ( $_POST['action'] ) )
+if ( ! empty ( $_REQUEST['action'] ) )
 {
-	$action = $_POST['action'];
+	$action = $_REQUEST['action'];
 }
 
 $User = new User();
-//$URL;
+
 if ( empty ($User->id) && $action != 'login' )
 {
 	$layout = "admin_login.php";
 	$key =  uniqid();
 	$error_text = '';
-	
 	$_SESSION['login'] = $key;
+	$action = '';
 }
 else
 {
 	$layout = "admin.php";
-}
-
-$action = 'view_list';
-
-if ( ! empty ( $_POST['action'] ) )
-{
-	$action = $_POST['action'];
+	
 }
 
 switch ($action) {
@@ -70,6 +63,9 @@ switch ($action) {
 					$_SESSION['name'] = $User->name;
 					$_SESSION['password'] = $User->password;				
 				}
+				$location = "Location: /administrator.php";
+				header($location); /* Redirect browser */
+				exit;				
 			}
 				
 		}
@@ -77,29 +73,103 @@ switch ($action) {
 		break;
 
 	case 'logout':
+		
+		setcookie("name", '');
+		setcookie("password", '');
+		$_SESSION['name'] = '';
+		$_SESSION['password'] = '';	
 
+		$location = "Location: /";
+		header($location); /* Redirect browser */
+		
 		break;
 	
 	case 'view_list':
 		
-		$query = 
-		$DB->query()
-
+		$offsset = 0;
+		
+		if ( ! empty( $_GET['start_offset'] ) )
+		{
+			$offsset = $_GET['start_offset']; 
+		}
+		
+		$query = "SELECT *
+					FROM Entries
+					LIMIT ". $DB->escape($offsset). " , 20";
+		
+		$results = $DB->get_results($query);
+		
+		$content = ' 
+		<table class="bordered-table zebra-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>${{title}}</th>
+            <th>${{updated}}</th>
+			<th>${{remove}}</th>
+			<th>${{edit}}</th>
+          </tr>
+        </thead>
+        <tbody>';
+		
+		foreach ($results as $value) 
+		{
+			$content .= "<tr><td>{$value['id']}</td><td>{$value['title']}</td><td>". $value['updated'] ."</td>
+					<td><a href=\"/administrator.php?action=remove_entry&id=". $value['id'] ."\">". '${{remove}}'."</a></td>
+					<td><a href=\"/administrator.php?action=edit_entry&id=". $value['id'] ."\">". '${{edit}}'."</a></td>
+					</tr>";
+		}
+		
+		$content .="</tbody></table>";
+		
+		$layout = "admin.php";
+		
 		break;
 
-	
+	case 'add_new_entry':
+		
+		$offsset = 0;
+		
+		if ( ! empty( $_GET['start_offset'] ) )
+		{
+			$offsset = $_GET['start_offset']; 
+		}
+		
+		$query = "SELECT *
+					FROM Entries
+					LIMIT ". $DB->escape($offsset). " , 20";
+		
+		$results = $DB->get_results($query);
+		
+		$content = ' 
+		<table class="bordered-table zebra-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>${{title}}</th>
+            <th>${{updated}}</th>
+			<th>${{remove}}</th>
+			<th>${{edit}}</th>
+          </tr>
+        </thead>
+        <tbody>';
+		
+		foreach ($results as $value) 
+		{
+			$content .= "<tr><td>{$value['id']}</td><td>{$value['title']}</td><td>". $value['updated'] ."</td>
+					<td><a href=\"/administrator.php?action=remove_entry&id=". $value['id'] ."\">". '${{remove}}'."</a></td>
+					<td><a href=\"/administrator.php?action=edit_entry&id=". $value['id'] ."\">". '${{edit}}'."</a></td>
+					</tr>";
+		}
+		
+		$content .="</tbody></table>";
+		
+		$layout = "admin.php";
+		
+		break;		
+		
 	
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -24,7 +24,11 @@
 
   <div class="container">
 	  <div class="row">
-		  <div class="span16">Logo </div> 
+		  <div class="span10">Logo </div> 
+		  <div class="span5">
+			<?php 
+			echo $User->getLoginLink();
+			?></div> 
 	  </div>
 	  <div class="row">
 		  <div class="span11">
@@ -34,16 +38,13 @@
 		  </div>
 		  <div class="span5">
 			  <div>
-				  <a href="/administrator.php?action=all_entries">${{all_entries}}</a>
+				  <a href="/administrator.php?">${{all_entries}}</a>
 			  </div>
 			  <div>
-				  <a href="/administrator.php?action=all_entries">${{all_entries}}</a>
+				  <a href="/administrator.php?action=add_new_entry">${{add_new_entry}}</a>
 			  </div>
 			  <div>
-				  <a href="/administrator.php?action=all_entries">${{all_entries}}</a>
-			  </div>
-			  <div>
-				  <a href="/administrator.php?action=all_entries">${{all_entries}}</a>
+				  <a href="/administrator.php?action=add_user">${{add_user}}</a>
 			  </div>
 		  </div>
 	  </div>
