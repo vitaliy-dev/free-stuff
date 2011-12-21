@@ -32,14 +32,14 @@ class User {
 		
 		if (! empty( $_SESSION["name"] )  && ! empty( $_SESSION["password"] ))
 		{
-			$query = "SELECT id, name 
+			$query = "SELECT id, name, password
 						FROM Users 
 						WHERE name = " . $this->db->quote($_SESSION["name"]) . "AND password =".  $this->db->quote($_SESSION["password"]);			
 			
 		}
 		elseif ( ! empty( $_COOKIE["name"] )  && ! empty( $_COOKIE["password"] ) )
 		{
-			$query = "SELECT id, name 
+			$query = "SELECT id, name, password
 						FROM Users 
 						WHERE name = " . $this->db->quote($_COOKIE["name"]) . "AND password =".  $this->db->quote($_COOKIE["password"]);
 							
@@ -47,7 +47,7 @@ class User {
 		}
 		elseif ( ! empty( $_POST["name"] )  && ! empty( $_POST["password"] ) )
 		{
-				$query = "SELECT id, name 
+				$query = "SELECT id, name, password
 							FROM Users 
 							WHERE name = " . $this->db->quote($_POST["name"]) . "AND password =".  $this->db->quote(md5($_POST["password"]));
 

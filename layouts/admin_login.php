@@ -74,7 +74,7 @@
 						<div class="clearfix">
 						<label for="stay_login">${{stay_login}}</label>
 						<div class="input">
-						<input type="checkbox" value="" id="stay_login" name="stay_login">
+						<input type="checkbox" value="save" id="stay_login" name="stay_login">
 						</div>						
 						</div>						
 					</div>

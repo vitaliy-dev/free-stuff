@@ -30,7 +30,7 @@ else
 	$layout = "admin.php";
 }
 
-$action = '';
+$action = 'view_list';
 
 if ( ! empty ( $_POST['action'] ) )
 {
@@ -56,9 +56,19 @@ switch ($action) {
 			}
 			else
 			{
-				if ( $_POST['stay_login'] == true )
+				if ( ! empty ($_POST['stay_login']) && $_POST['stay_login'] == 'save' )
 				{
-					
+					setcookie("name", $User->name,time()+3600);
+					setcookie("password", $User->password,time()+3600);
+					$_SESSION['name'] = $User->name;
+					$_SESSION['password'] = $User->password;
+				}
+				else
+				{
+					setcookie("name", $User->name);
+					setcookie("password", $User->password);
+					$_SESSION['name'] = $User->name;
+					$_SESSION['password'] = $User->password;				
 				}
 			}
 				
@@ -70,9 +80,15 @@ switch ($action) {
 
 		break;
 	
+	case 'view_list':
+		
+		$query = 
+		$DB->query()
 
-	default:
 		break;
+
+	
+	
 }
 
 
