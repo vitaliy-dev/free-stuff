@@ -32,7 +32,16 @@
 			  		  
 			    <form method="post" enctype="multipart/form-data" action="/administrator.php">
 				<input type="hidden" name="key" value="<?php echo $key?>"/>
+				<?php
+					if ( ! empty ($old_id) )
+					{
+						?>
+						<input type="hidden" name="id" value="<?php echo $old_id?>"/>
+						<?php
+					}
+				?>
 				<input type="hidden" name="action" value="add_new_entry"/>
+				
 				<div class="row">
 					<div class="span4">
 						<div class="clearfix <?php echo $error_title != '' ? "error" : '';  ?>">
@@ -83,7 +92,22 @@
 							</div>						
 					</div>
 				</div>
-	
+
+				<?php
+					if ( ! empty ($old_image) )
+					{
+						?>
+							<div class="row">
+								<div class="span6">
+									<a href="/img/<?php echo $old_image?>" target="_blank"><img class="thumbnail imgsmall" src="/img/<?php echo $old_image?>"></a>
+								</div>
+							</div>					
+
+						<?php
+					}
+				?>
+				
+				
 				<div class="row">
 					<div class="span4">
 						<div class="clearfix <?php echo $error_file_input != '' ? "error" : '';  ?>">

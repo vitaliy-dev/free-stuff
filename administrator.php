@@ -1,7 +1,6 @@
 <?php
 
 ob_start();
-
 session_start();
 
 require_once 'core/settings.php';
@@ -137,10 +136,13 @@ switch ($action) {
 		$layout = "admin.php";
 		
 		break;
-
+	
+	case 'edit_entry':
 	case 'add_new_entry':
 
-		$error = false;
+		$error = array();
+		$old_id = false;
+	
 		$title_input = '';
 		$error_title = '';
 		
@@ -152,6 +154,27 @@ switch ($action) {
 			
 		$error_file_input = '';
 
+		if ( ! empty ( $_REQUEST['id'] ) )
+		{
+			$id = (int)$_REQUEST['id'];
+			$query = "SELECT e.*, GROUP_CONCAT(DISTINCT t.tag ORDER BY t.tag DESC SEPARATOR ', ') as tags
+						FROM Entries as e
+						INNER JOIN Entries_tags as entag on(e.id = entag.entry_id AND e.id = ".$DB->quote($id).")
+						INNER JOIN Tags as t on(entag.tag_id = t.id)
+						GROUP BY e.id ";
+		
+			$results = $DB->get_results($query);
+			
+			if ( ! empty ( $results ) )
+			{
+				$old_id = $results[0]['id'];
+				$title_input = $results[0]['title'];
+				$old_image = $results[0]['image'];
+				$text_description = $results[0]['description'];
+				$text_tags = $results[0]['tags'];
+			}
+		}
+		
 		
 		if ( empty ( $_POST['submit'] ) )
 		{	// display the form 
@@ -164,10 +187,10 @@ switch ($action) {
 			
 			if ( empty( $title_input ) ||  preg_match("/([^\s-a-z0-9_])/i", $title_input ) )
 			{	// validate title, it should not contain nothing else except letters, numbers, space and underlines
-				$error = true;
+				$error[] = true;
 				$error_title = '{{error_title}}';
 			}
-			else
+			else 
 			{	// check if title is unique in DB. 
 					$query = "
 					SELECT id
@@ -177,9 +200,9 @@ switch ($action) {
 		
 					$results = $DB->get_results($query);
 					
-					if ( ! empty ( $results ) )
+					if ( ! empty ( $results ) && $old_id != $results[0]['id'] )
 					{
-						$error = true;
+						$error[] = true;
 						$error_title = '{{error_title_not_unique}}';
 					}
 			}
@@ -190,7 +213,7 @@ switch ($action) {
 			
 			if ( empty( $text_description ) ) 
 			{	// check Description field, it cannot be empty.
-				$error = true;
+				$error[] = true;
 				$error_description = '{{error_description_empty}}';
 				
 			}
@@ -206,33 +229,45 @@ switch ($action) {
 			
 			if ( preg_match("/([^\s-a-z,])/i", $text_tags ) )
 			{	// validate entered tags; tag field can contain only letters, spaces, dashes and commas
-				$error = true;
+				$error[] = true;
 				$error_tags = '{{error_tags}}';
 				
 			}
 			
 			$text_tags = htmlspecialchars( $text_tags );
 
-			if (  ! empty ( $_FILES['file_input']['error'] ) )
+			
+			if (  ! empty ( $_FILES['file_input']['error'] )  )
 			{	// check if the file is loaded correctly
 				$error_file_input = '{{$error_file_upload}}';
+				if ( empty ( $old_id ) )
+				{
+					$error = true;
+				}
 			}
 			else
 			{
 				if ( ! is_image( $_FILES['file_input']['type'] ) )
 				{	// check if the file is an image or not
 					$error_file_input = '{{error_file_no_image}}';
+					if ( empty ( $old_id ) )
+					{
+						$error = true;
+					}
 				}
 			}
 			
 			//$error = true;
-			if ($error)
+			if ( ! empty ( $error ) )
 			{
 				$layout = "admin_add_entry.php";
 				$key = set_session_key();
 			}
 			else
 			{	// insert to db
+				
+				if (  empty ($old_id) )
+				{
 					$new_filename = substr(md5(uniqid(rand(), true)), 0, rand(7, 13));
 					$filename_old = basename($_FILES['file_input']['name']);
 					$result = array ();
@@ -320,6 +355,101 @@ switch ($action) {
 						$key = set_session_key();
 						$error_file_input = '{{error_file_no_copy}}';
 					}
+				}
+				else
+				{	// update entry
+					if ( empty ( $error_file_input ) )
+					{
+						
+						$new_filename = substr(md5(uniqid(rand(), true)), 0, rand(7, 13));
+						$filename_old = basename($_FILES['file_input']['name']);
+						$result = array ();
+
+						if ( preg_match("/\.(.*?)$/",$filename_old,$result) )
+						{	// get file ext
+							$new_filename = $new_filename.$result[0];	
+						}
+
+						if( copy($_FILES['file_input']['tmp_name'],"img/".$new_filename))
+						{
+							@unlink("img/".$old_image);
+							$old_image = $new_filename;						
+						}
+					}
+					
+					$query = "
+							UPDATE Entries 
+							SET	title= ".$DB->quote(htmlspecialchars_decode($title_input)) .", 
+								image= ".$DB->quote($old_image) .", 
+								description = ".$DB->quote($text_description)."
+							WHERE id = ". $DB->quote($old_id);
+		
+						$DB->query($query);
+						
+						$query = "DELETE FROM Entries_tags
+						WHERE entry_id =". $DB->quote($old_id);
+						$DB->query($query);		
+						
+						$text_tags_original = trim($text_tags_original);
+						
+						if (! empty ( $text_tags_original ) )
+						{
+							$tags = explode(',', $text_tags_original);
+							if ( ! empty ($tags) )
+							{
+								$insert_string = '';
+								$select_string = '';
+								
+								$tags = array_unique($tags);
+								
+								foreach ($tags as $tag)
+								{
+									$tag = $DB->escape(trim($tag));
+									
+									if ($insert_string == '')
+									{
+										$insert_string .= "('$tag')";
+									}
+									else
+									{
+										$insert_string .= ", ('$tag')";
+									}
+									
+									if ( $select_string == '' )
+									{
+										$select_string .= "('$tag'";
+									}
+									else
+									{
+										$select_string .= ", '$tag'";
+									}
+									
+								}
+								
+								$select_string .= ')';
+								
+								$query = "
+								INSERT IGNORE INTO Tags( tag ) 
+								VALUES".$insert_string;
+							
+								$DB->query($query);
+								
+								$query = "
+								INSERT INTO Entries_tags( entry_id, tag_id )
+									SELECT ". $DB->quote($old_id). " , id
+									FROM Tags
+									WHERE tag in $select_string";
+
+								$DB->query($query);
+
+							}
+							
+						}
+						
+						$location = "Location: /administrator.php";
+						header($location); /* Redirect browser */
+					
+				}
 			}					
 		}
 		break;		
