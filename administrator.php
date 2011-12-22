@@ -257,7 +257,7 @@ switch ($action) {
 						
 						$text_tags_original = trim($text_tags_original);
 						
-						if (! empty ( $text_tags_original ) && false )
+						if (! empty ( $text_tags_original ) )
 						{
 							$tags = explode(',', $text_tags_original);
 							if ( ! empty ($tags) )
@@ -265,29 +265,48 @@ switch ($action) {
 								$insert_string = '';
 								$select_string = '';
 								
+								$tags = array_unique($tags);
+								
 								foreach ($tags as $tag)
 								{
-									$tag = trim($tag);
+									$tag = $DB->escape(trim($tag));
+									
 									if ($insert_string == '')
 									{
-										$insert_string .= "($tag)";
+										$insert_string .= "('$tag')";
 									}
 									else
 									{
-										$insert_string .= ", ($tag)";
+										$insert_string .= ", ('$tag')";
 									}
+									
+									if ( $select_string == '' )
+									{
+										$select_string .= "('$tag'";
+									}
+									else
+									{
+										$select_string .= ", '$tag'";
+									}
+									
 								}
 								
-								
-								
+								$select_string .= ')';
 								
 								$query = "
-								INSERT INTO
-								Entries (title, image, description) 
-								VALUES('".$DB->escape(htmlspecialchars_decode($title_input)) ."', '".$DB->escape($new_filename)."', '". $DB->escape($text_description) ."' );
-						"		;
-
+								INSERT IGNORE INTO Tags( tag ) 
+								VALUES".$insert_string;
+							
+								$DB->query($query);
 								
+								$query = "
+								INSERT INTO Entries_tags( entry_id, tag_id )
+									SELECT $entry_id, id
+									FROM Tags
+									WHERE tag in $select_string";
+
+								$DB->query($query);
+
 							}
 							
 						}
