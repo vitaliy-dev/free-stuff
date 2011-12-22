@@ -30,7 +30,7 @@ else
 }
 
 if ( ! check_session_keys() )
-{
+{	// if session doesn't contain a correct key, show error message 
 	$action = 'wrong_key';
 }
 
@@ -38,7 +38,7 @@ if ( ! check_session_keys() )
 switch ($action) {
 	
 	case 'wrong_key':
-		
+		$content = '${{error_session_key}}';
 		$layout = "key.php";
 		break;
 	
@@ -146,7 +146,7 @@ switch ($action) {
 
 		
 		if ( empty ( $_POST['submit'] ) )
-		{
+		{	// display the form 
 			$key = set_session_key();
 			$layout = "admin_add_entry.php";
 		}
@@ -155,23 +155,40 @@ switch ($action) {
 			$title_input = $_POST['title_input'];
 			
 			if ( empty( $title_input ) ||  preg_match("/([^\s-a-z0-9_])/i", $title_input ) )
-			{
+			{	// validate title, it should not contain nothing else except letters, numbers, space and underlines
 				$error = true;
 				$error_title = '${{error_title}}';
 			}
+			else
+			{	// check if title is unique in DB. 
+					$query = "
+					SELECT id
+					FROM Entries
+					WHERE title ='" .$DB->escape($title_input) ."' 
+					LIMIT 1";
+		
+					$results = $DB->get_results($query);
+					
+					if ( ! empty ( $results ) )
+					{
+						$error = true;
+						$error_title = '${{error_title_not_unique}}';
+					}
+			}
+			
 
 			$title_input = htmlspecialchars( $title_input );
 			
 			$text_description = $_POST['description'];
 			
 			if ( empty( $text_description ) ) 
-			{
+			{	// check Description field, it cannot be empty.
 				$error = true;
 				$error_description = '${{error_description_empty}}';
 				
 			}
 			else
-			{
+			{	
 				$text_description = strip_tags($text_description);
 			}
 			
@@ -180,8 +197,7 @@ switch ($action) {
 			
 			
 			if ( preg_match("/([^\s-a-z,])/i", $text_tags ) )
-			{
-				
+			{	// validate entered tags; tag field can contain only letters, spaces, dashes and commas
 				$error = true;
 				$error_tags = '${{error_tags}}';
 				
@@ -190,25 +206,26 @@ switch ($action) {
 			$text_tags = htmlspecialchars( $text_tags );
 
 			if (  ! empty ( $_FILES['file_input']['error'] ) )
-			{
+			{	// check if the file is loaded correctly
 				$error_file_input = '${{$error_file_upload}}';
 			}
 			else
 			{
 				if ( ! is_image( $_FILES['file_input']['type'] ) )
-				{
+				{	// check if the file is an image or not
 					$error_file_input = '${{$error_file_no_image}}';
 				}
 			}
 			
-			$error = true;
+			//$error = true;
 			if ($error)
 			{
 				$layout = "admin_add_entry.php";
 				$key = set_session_key();
 			}
 			else
-			{
+			{	// insert to db
+				
 				// upload
 			}
 			
