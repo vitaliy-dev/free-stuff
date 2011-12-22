@@ -69,11 +69,11 @@ class User {
 		
 		if ( ! empty ( $this->id ) )
 		{	// logout
-			$str = '<a href="/administrator.php?action=logout">${{logout_link}}</a>';
+			$str = '<a href="/administrator.php?action=logout">{{logout_link}}</a>';
 		}
 		else
 		{
-			$str = '<a href="/administrator.php?action=login">${{login_link}}</a>';
+			$str = '<a href="/administrator.php?action=login">{{login_link}}</a>';
 		}
 		
 		return $str;

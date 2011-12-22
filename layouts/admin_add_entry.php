@@ -36,7 +36,7 @@
 				<div class="row">
 					<div class="span4">
 						<div class="clearfix <?php echo $error_title != '' ? "error" : '';  ?>">
-							<label for="title_input">${{input_title}}</label>
+							<label for="title_input">{{input_title}}</label>
 							<div class="input">
 							<input id="title_input" class="xlarge error" type="text" size="30" name="title_input" value="<?php echo $title_input; ?>" >
 							<?php
@@ -54,7 +54,7 @@
 					<div class="span4">
 
 						<div class="clearfix <?php echo $error_description != '' ? "error" : '';  ?>">
-							<label for="textarea">${{input_description}}</label>
+							<label for="textarea">{{input_description}}</label>
 							<div class="input">
 							<textarea id="textarea" class="xlarge"  rows="3" name="description"><?php echo $text_description; ?></textarea>
 							<?php
@@ -70,7 +70,7 @@
 				<div class="row">
 					<div class="span4">
 						<div class="clearfix <?php echo $error_tags != '' ? "error" : '';  ?>">
-								<label for="tags_input">${{input_tags}}</label>
+								<label for="tags_input">{{input_tags}}</label>
 								<div class="input">
 								<input id="tags_input" class="xlarge <?php echo $error_tags != '' ? "error" : '';  ?>" type="text" size="30" name="tags_input" value="<?php echo $text_tags; ?>" >
 								<?php
@@ -87,7 +87,7 @@
 				<div class="row">
 					<div class="span4">
 						<div class="clearfix <?php echo $error_file_input != '' ? "error" : '';  ?>">
-								<label for="file_input">${{input_image}}</label>
+								<label for="file_input">{{input_image}}</label>
 								<div class="input">
 								<input id="file_input" class="input-file <?php echo $error_file_input != '' ? "error" : '';  ?>" type="file" name="file_input" >
 								<?php
@@ -103,7 +103,7 @@
 				
 				<div class="row">
 					<div class="span4 offset4">
-						<input class="btn primary" type="submit" name="submit" value="${{input_submit}}"></input>
+						<input class="btn primary" type="submit" name="submit" value="{{input_submit}}"></input>
 					</div>
 				</div>
 				

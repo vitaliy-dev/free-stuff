@@ -132,7 +132,21 @@ class Db
 			
 		}
 		return $result;
-	}	
+	}
+	
+	public function insert_id()
+	{
+		if ( ! empty( $this->insert_id ) )
+		{
+			return $this->insert_id;
+		}
+		else
+		{
+			return NULL;
+		}
+		
+		
+	}
 	
 }
 

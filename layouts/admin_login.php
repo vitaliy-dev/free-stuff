@@ -37,7 +37,7 @@
 					<div class="span5 offset4">
 
 						<div class="clearfix <?php echo $error_text != '' ? "error" : '';  ?>">
-							<label for="name_input">${{input_name}}</label>
+							<label for="name_input">{{input_name}}</label>
 							<div class="input">
 							<input id="name_input" class="xlarge error" type="text" size="30" name="name">
 							<?php
@@ -55,7 +55,7 @@
 					<div class="span5 offset4">
 
 						<div class="clearfix <?php echo $error_text != '' ? "error" : '';  ?>">
-							<label for="pass_input">${{input_pass}}</label>
+							<label for="pass_input">{{input_pass}}</label>
 							<div class="input">
 							<input id="name_input" class="xlarge error" type="password" size="30" name="password">
 							<?php
@@ -72,7 +72,7 @@
 				<div class="row">
 					<div class="span5 offset4">
 						<div class="clearfix">
-						<label for="stay_login">${{stay_login}}</label>
+						<label for="stay_login">{{stay_login}}</label>
 						<div class="input">
 						<input type="checkbox" value="save" id="stay_login" name="stay_login">
 						</div>						
@@ -84,7 +84,7 @@
 				
 				<div class="row">				
 					<div class="span5 offset6">
-						<input class="btn large primary" type="submit" name="submit" value="${{input_submit}}"></input>
+						<input class="btn large primary" type="submit" name="submit" value="{{input_submit}}"></input>
 					</div>
 				</div>
 				  
