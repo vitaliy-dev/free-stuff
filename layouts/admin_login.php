@@ -24,7 +24,7 @@
 
   <div class="container">
 	  <div class="row">
-		  <div class="span16">Logo </div> 
+		 <?php require_once 'admin_head.php'; ?>
 	  </div>
 	  <div class="row">
 		  <div class="span5">
@@ -92,13 +92,7 @@
 		  </div>
 	  </div>
 	  <div class="row">
-		  <div class="span16">
-			  Footer Footer Footer Footer Footer Footer
-		  		  Footer Footer Footer Footer Footer Footer
-				  		  Footer Footer Footer Footer Footer Footer
-						  		  Footer Footer Footer Footer Footer Footer
-								  		  Footer Footer Footer Footer Footer Footer
-		  </div>
+			<?php require_once 'admin_footer.php'; ?>
 	  </div>
   </div> <!--! end of #container -->
 

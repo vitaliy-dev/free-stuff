@@ -83,7 +83,7 @@ switch ($action) {
 		$_SESSION['name'] = '';
 		$_SESSION['password'] = '';	
 
-		$location = "Location: /";
+		$location = "Location: /administrator.php";
 		header($location); /* Redirect browser */
 		
 		break;

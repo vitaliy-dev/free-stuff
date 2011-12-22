@@ -24,11 +24,7 @@
 
   <div class="container">
 	  <div class="row">
-		  <div class="span10">Logo </div> 
-		  <div class="span5">
-			<?php 
-			echo $User->getLoginLink();
-			?></div> 
+		  <?php require_once 'admin_head.php'; ?>
 	  </div>
 		  
 	  <div class="row">
@@ -37,8 +33,6 @@
 			    <form method="post" action="/administrator.php">
 				<input type="hidden" name="key" value="<?php echo $key?>"/>
 				<input type="hidden" name="action" value="add_new_entry"/>
-				
-			
 				<div class="row">
 					
 					<div class="span4">
@@ -64,7 +58,7 @@
 						<div class="clearfix <?php echo $error_description != '' ? "error" : '';  ?>">
 							<label for="textarea">${{input_description}}</label>
 							<div class="input">
-							<textarea id="textarea" class="xxlarge"  rows="3" name="description"></textarea>
+							<textarea id="textarea" class="xlarge"  rows="3" name="description"></textarea>
 							<?php
 								if ( !empty ( $error_text ) )
 								{
@@ -92,13 +86,7 @@
 		  </div>
 	  </div>
 	  <div class="row">
-		  <div class="span15">
-			  Footer Footer Footer Footer Footer Footer
-		  		  Footer Footer Footer Footer Footer Footer
-				  		  Footer Footer Footer Footer Footer Footer
-						  		  Footer Footer Footer Footer Footer Footer
-								  		  Footer Footer Footer Footer Footer Footer
-		  </div>
+		  <?php require_once 'admin_footer.php'; ?>
 	  </div>
   </div> <!--! end of #container -->
 
