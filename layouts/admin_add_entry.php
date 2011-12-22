@@ -30,7 +30,7 @@
 	  <div class="row">
 		  <div class="span11">
 			  		  
-			    <form method="post" action="/administrator.php">
+			    <form method="post" enctype="multipart/form-data" action="/administrator.php">
 				<input type="hidden" name="key" value="<?php echo $key?>"/>
 				<input type="hidden" name="action" value="add_new_entry"/>
 				<div class="row">
@@ -40,7 +40,7 @@
 							<div class="input">
 							<input id="title_input" class="xlarge error" type="text" size="30" name="title_input" value="<?php echo $title_input; ?>" >
 							<?php
-								if ( !empty ( $error_text ) )
+								if ( !empty ( $error_title ) )
 								{
 									echo '<span class="help-inline error">'.$error_title.'</span>';
 								}
@@ -58,7 +58,7 @@
 							<div class="input">
 							<textarea id="textarea" class="xlarge"  rows="3" name="description"><?php echo $text_description; ?></textarea>
 							<?php
-								if ( !empty ( $error_text ) )
+								if ( !empty ( $error_description ) )
 								{
 									echo '<span class="help-inline error">'.$error_description.'</span>';
 								}

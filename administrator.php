@@ -131,27 +131,81 @@ switch ($action) {
 		break;
 
 	case 'add_new_entry':
+
+		$error = false;
+		$title_input = '';
+		$error_title = '';
+		
+		$error_description = '';
+		$text_description = '';
+			
+		$error_tags = '';
+		$text_tags = '';
+			
+		$error_file_input = '';
+
 		
 		if ( empty ( $_POST['submit'] ) )
 		{
 			$key = set_session_key();
-			$title_input = '';
-			$error_text = '';
-			
-			$error_description = '';
-			$text_description = '';
-			
-			$error_tags = '';
-			$text_tags = '';
-			
-			$error_file_input = '';
-			
-			
 			$layout = "admin_add_entry.php";
 		}
 		else
 		{
-			$title_input = htmlspecialchars($_POST('title_input'));
+			$title_input = $_POST['title_input'];
+			
+			if ( empty( $title_input ) ||  preg_match("/([^\s-a-z0-9_])/i", $title_input ) )
+			{
+				$error = true;
+				$error_title = '${{error_title}}';
+			}
+
+			$title_input = htmlspecialchars( $title_input );
+			
+			$text_description = $_POST['description'];
+			
+			if ( empty( $text_description ) ) 
+			{
+				$error = true;
+				$error_description = '${{error_description_empty}}';
+				
+			}
+			else
+			{
+				$text_description = strip_tags($text_description);
+			}
+			
+
+			$text_tags = $_POST['tags_input'];
+			
+			
+			if ( preg_match("/([^\s-a-z,])/i", $text_tags ) )
+			{
+				
+				$error = true;
+				$error_tags = '${{error_tags}}';
+				
+			}
+			
+			$text_tags = htmlspecialchars( $text_tags );
+
+			if ( empty ( $_FILES['file_input'] ) )
+			{
+				
+			}
+			
+			$error = true;
+			if ($error)
+			{
+				$layout = "admin_add_entry.php";
+				$key = set_session_key();
+			}
+			else
+			{
+				// upload
+			}
+			
+			
 		}
 
 
