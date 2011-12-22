@@ -30,7 +30,6 @@ if ( empty ($User->id) && $action != 'login' )
 else
 {
 	$layout = "admin.php";
-	
 }
 
 if ( ! check_session_keys() )
@@ -324,7 +323,40 @@ switch ($action) {
 			}					
 		}
 		break;		
+	
+	case 'remove_entry':
+		if ( ! empty ( $_GET['id'] ) )
+		{
+			$id = $DB->quote( $_GET['id'] );
+			
+			$query = "SELECT image FROM Entries
+						WHERE id =".$id;
+			
+			$results = $DB->get_results($query);
+			
+			if ( ! empty ( $results ) )
+			{
+				$entry_file = $results[0]['image'];
+
+				@unlink("img/".$entry_file);
+				
+				$query = "DELETE FROM comments
+							WHERE entry_id =".$id;
+				$DB->query($query);
+
+				$query = "DELETE FROM Entries_tags
+				WHERE entry_id =".$id;
+				$DB->query($query);				
+
+				$query = "DELETE FROM Entries
+				WHERE id =".$id;
+				$DB->query($query);				
+			}
+		}
 		
+		$location = "Location: /administrator.php";
+		header($location); /* Redirect browser */
+		break;
 	
 }
 
