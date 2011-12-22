@@ -48,9 +48,24 @@ function check_session_keys()
 		}
 		
 	}
-	
-	
-	
 }
+	
+function is_image( $file_type )
+{
+	$img_mimes = array('image/x-png', 
+							'image/jpg', 
+							'image/jpe', 
+							'image/jpeg', 
+							'image/pjpeg',
+							'image/gif',
+							'image/jpeg',
+							'image/png',
+		);
+	
+	return (in_array($file_type, $img_mimes, TRUE)) ? TRUE : FALSE;
+	}
+	
+	
+
 
 ?>

@@ -189,9 +189,16 @@ switch ($action) {
 			
 			$text_tags = htmlspecialchars( $text_tags );
 
-			if ( empty ( $_FILES['file_input'] ) )
+			if (  ! empty ( $_FILES['file_input']['error'] ) )
 			{
-				
+				$error_file_input = '${{$error_file_upload}}';
+			}
+			else
+			{
+				if ( ! is_image( $_FILES['file_input']['type'] ) )
+				{
+					$error_file_input = '${{$error_file_no_image}}';
+				}
 			}
 			
 			$error = true;
