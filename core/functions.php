@@ -2,7 +2,7 @@
 
 /**
  *	Set form key to session
- * 
+ *	@return string Key
  */
 function set_session_key()
 {
@@ -15,6 +15,7 @@ function set_session_key()
 	{
 		$_SESSION['keys'][$key] = $key;
 	}
+	return $key;
 }
 
 /**
@@ -35,9 +36,10 @@ function check_session_keys()
 	}
 	else
 	{
-		if ( ! empty( $POST['key'] ) && array_key_exists($POST['key'], $_SESSION['keys']))
+
+		if ( ! empty( $_POST['key'] ) && array_key_exists($_POST['key'], $_SESSION['keys']) )
 		{
-			unset($_SESSION['keys'][$POST['key']]);
+			unset($_SESSION['keys'][$_POST['key']]);
 			return true;
 		}
 		else

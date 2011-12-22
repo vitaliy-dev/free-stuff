@@ -19,9 +19,8 @@ $User = new User();
 if ( empty ($User->id) && $action != 'login' )
 {
 	$layout = "admin_login.php";
-	$key =  uniqid();
 	$error_text = '';
-	$_SESSION['login'] = $key;
+	$key = set_session_key();
 	$action = '';
 }
 else
@@ -32,7 +31,7 @@ else
 
 if ( ! check_session_keys() )
 {
-	
+	$action = 'wrong_key';
 }
 
 
@@ -40,24 +39,18 @@ switch ($action) {
 	
 	case 'wrong_key':
 		
+		$layout = "key.php";
 		break;
 	
 	
 	case 'login':
 		
-		if ($_SESSION['login'] !=  $_POST['key'])
-		{
-			$layout = "key.php";
-		}
-		else
-		{
 			$User = new User();
 			if ( empty ($User->id ) )
 			{
 				$layout = "admin_login.php";
-				$key =  uniqid();
 				$error_text = 'Not correct user name or password';
-				$_SESSION['login'] = $key;
+				$key = set_session_key();
 			}
 			else
 			{
@@ -79,8 +72,7 @@ switch ($action) {
 				header($location); /* Redirect browser */
 				exit;				
 			}
-				
-		}
+
 
 		break;
 
@@ -142,9 +134,8 @@ switch ($action) {
 		
 		if ( empty ( $_POST['submit'] ) )
 		{
-			$key =  uniqid();
+			$key = set_session_key();
 			$error_text = '';
-			$_SESSION['add_new_entry'] = $key;
 			$layout = "admin_add_entry.php";
 		}
 		else
