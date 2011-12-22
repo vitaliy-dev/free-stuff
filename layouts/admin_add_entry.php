@@ -34,9 +34,7 @@
 				<input type="hidden" name="key" value="<?php echo $key?>"/>
 				<input type="hidden" name="action" value="add_new_entry"/>
 				<div class="row">
-					
 					<div class="span4">
-
 						<div class="clearfix <?php echo $error_title != '' ? "error" : '';  ?>">
 							<label for="title_input">${{input_title}}</label>
 							<div class="input">
@@ -58,7 +56,7 @@
 						<div class="clearfix <?php echo $error_description != '' ? "error" : '';  ?>">
 							<label for="textarea">${{input_description}}</label>
 							<div class="input">
-							<textarea id="textarea" class="xlarge"  rows="3" name="description"></textarea>
+							<textarea id="textarea" class="xlarge"  rows="3" name="description"><?php echo $text_description; ?></textarea>
 							<?php
 								if ( !empty ( $error_text ) )
 								{
@@ -69,20 +67,52 @@
 						</div>						
 					</div>
 				</div>
+				<div class="row">
+					<div class="span4">
+						<div class="clearfix <?php echo $error_tags != '' ? "error" : '';  ?>">
+								<label for="tags_input">${{input_tags}}</label>
+								<div class="input">
+								<input id="tags_input" class="xlarge <?php echo $error_tags != '' ? "error" : '';  ?>" type="text" size="30" name="tags_input" value="<?php echo $text_tags; ?>" >
+								<?php
+									if ( !empty ( $error_tags ) )
+									{
+										echo '<span class="help-inline error">'.$error_tags.'</span>';
+									}
+								?>	
+								</div>
+							</div>						
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="span4">
+						<div class="clearfix <?php echo $error_file_input != '' ? "error" : '';  ?>">
+								<label for="file_input">${{input_image}}</label>
+								<div class="input">
+								<input id="file_input" class="input-file <?php echo $error_file_input != '' ? "error" : '';  ?>" type="file" name="file_input" >
+								<?php
+									if ( !empty ( $error_file_input ) )
+									{
+										echo '<span class="help-inline error">'.$error_file_input.'</span>';
+									}
+								?>	
+								</div>
+							</div>						
+					</div>
+				</div>	
+				
+				<div class="row">
+					<div class="span4 offset4">
+						<input class="btn primary" type="submit" name="submit" value="${{input_submit}}"></input>
+					</div>
+				</div>
+				
 				  
 			  </form>
 
 		  </div>
 		  <div class="span5">
-			  <div>
-				  <a href="/administrator.php?">${{all_entries}}</a>
-			  </div>
-			  <div>
-				  <a href="/administrator.php?action=add_new_entry">${{add_new_entry}}</a>
-			  </div>
-			  <div>
-				  <a href="/administrator.php?action=add_user">${{add_user}}</a>
-			  </div>
+			  <?php require_once 'admin_side_bar.php'; ?>
 		  </div>
 	  </div>
 	  <div class="row">

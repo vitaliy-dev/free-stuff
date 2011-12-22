@@ -24,11 +24,7 @@
 
   <div class="container">
 	  <div class="row">
-		  <div class="span10">Logo </div> 
-		  <div class="span5">
-			<?php 
-			echo $User->getLoginLink();
-			?></div> 
+		  <?php require_once 'admin_head.php'; ?>
 	  </div>
 	  <div class="row">
 		  <div class="span11">
@@ -37,25 +33,11 @@
 			  ?>
 		  </div>
 		  <div class="span5">
-			  <div>
-				  <a href="/administrator.php?">${{all_entries}}</a>
-			  </div>
-			  <div>
-				  <a href="/administrator.php?action=add_new_entry">${{add_new_entry}}</a>
-			  </div>
-			  <div>
-				  <a href="/administrator.php?action=add_user">${{add_user}}</a>
-			  </div>
+				<?php require_once 'admin_side_bar.php'; ?>
 		  </div>
 	  </div>
 	  <div class="row">
-		  <div class="span15">
-			  Footer Footer Footer Footer Footer Footer
-		  		  Footer Footer Footer Footer Footer Footer
-				  		  Footer Footer Footer Footer Footer Footer
-						  		  Footer Footer Footer Footer Footer Footer
-								  		  Footer Footer Footer Footer Footer Footer
-		  </div>
+		  <?php require_once 'admin_footer.php'; ?>
 	  </div>
   </div> <!--! end of #container -->
 

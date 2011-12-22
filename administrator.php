@@ -135,7 +135,18 @@ switch ($action) {
 		if ( empty ( $_POST['submit'] ) )
 		{
 			$key = set_session_key();
+			$title_input = '';
 			$error_text = '';
+			
+			$error_description = '';
+			$text_description = '';
+			
+			$error_tags = '';
+			$text_tags = '';
+			
+			$error_file_input = '';
+			
+			
 			$layout = "admin_add_entry.php";
 		}
 		else
