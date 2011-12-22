@@ -1,10 +1,10 @@
 <?php
 session_start();
-include_once 'core/settings.php';
-include_once 'core/db.php';
-include_once 'core/localization.php';
-include_once 'core/user_model.php';
-
+require_once 'core/settings.php';
+require_once 'core/db.php';
+require_once 'core/localization.php';
+require_once 'core/user_model.php';
+require_once 'core/functions.php';
 
 $DB = Db::getInstance();
 $action = 'view_list';
@@ -30,7 +30,19 @@ else
 	
 }
 
+if ( ! check_session_keys() )
+{
+	
+}
+
+
 switch ($action) {
+	
+	case 'wrong_key':
+		
+		break;
+	
+	
 	case 'login':
 		
 		if ($_SESSION['login'] !=  $_POST['key'])
@@ -138,8 +150,6 @@ switch ($action) {
 		else
 		{
 			$title_input = htmlspecialchars($_POST('title_input'));
-			
-			
 		}
 
 
