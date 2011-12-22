@@ -4,6 +4,10 @@ include_once 'core/db.php';
 include_once 'core/localization.php';
 include_once 'core/user_model.php';
 
+ob_start();
+
+$DB = Db::getInstance();
+
 $User = new User();
 
 if ( empty ( $URL ) )
@@ -26,6 +30,9 @@ else
 {
 	require_once 'layouts/'.$layout;
 }
+
+$html_output = ob_get_clean();
+
 		
 
 ?>

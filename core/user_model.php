@@ -34,7 +34,9 @@ class User {
 		{
 			$query = "SELECT id, name, password
 						FROM Users 
-						WHERE name = " . $this->db->quote($_SESSION["name"]) . "AND password =".  $this->db->quote($_SESSION["password"]);			
+						WHERE name = " . $this->db->quote($_SESSION["name"]) . "AND password =".  $this->db->quote($_SESSION["password"]);	
+			
+			$user_data = $this->db->get_results($query);
 			
 		}
 		elseif ( ! empty( $_COOKIE["name"] )  && ! empty( $_COOKIE["password"] ) )
@@ -62,16 +64,19 @@ class User {
 
 	function getLoginLink()
 	{
-		$user_data = $this->check();
 		
-		if ( ! empty ( $user_data ) )
+		$str = '';
+		
+		if ( ! empty ( $this->id ) )
 		{	// logout
-			$str = '<a href="/?action=logout">${{logout_link}}</a>';
+			$str = '<a href="/administrator.php?action=logout">{{logout_link}}</a>';
 		}
 		else
 		{
-			$str = '<a href="/?action=login">${{login_link}}</a>';
+			$str = '<a href="/administrator.php?action=login">{{login_link}}</a>';
 		}
+		
+		return $str;
 	}
 
 }
