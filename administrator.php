@@ -1,7 +1,6 @@
 <?php
 
 ob_start();
-
 session_start();
 
 require_once 'core/settings.php';
@@ -137,10 +136,13 @@ switch ($action) {
 		$layout = "admin.php";
 		
 		break;
-
+	
+	case 'edit_entry':
 	case 'add_new_entry':
 
 		$error = false;
+		$old_id = false;
+	
 		$title_input = '';
 		$error_title = '';
 		
@@ -152,6 +154,27 @@ switch ($action) {
 			
 		$error_file_input = '';
 
+		if ( ! empty ( $_REQUEST['id'] ) )
+		{
+			$id = (int)$_REQUEST['id'];
+			$query = "SELECT e.*, GROUP_CONCAT(DISTINCT t.tag ORDER BY t.tag DESC SEPARATOR ', ') as tags
+						FROM Entries as e
+						INNER JOIN Entries_tags as entag on(e.id = entag.entry_id AND e.id = ".$DB->quote($id).")
+						INNER JOIN Tags as t on(entag.tag_id = t.id)
+						GROUP BY e.id ";
+		
+			$results = $DB->get_results($query);
+			
+			if ( ! empty ( $results ) )
+			{
+				$old_id = $results[0]['id'];
+				$title_input = $results[0]['title'];
+				$old_image = $results[0]['image'];
+				$text_description = $results[0]['description'];
+				$text_tags = $results[0]['tags'];
+			}
+		}
+		
 		
 		if ( empty ( $_POST['submit'] ) )
 		{	// display the form 
@@ -167,7 +190,7 @@ switch ($action) {
 				$error = true;
 				$error_title = '{{error_title}}';
 			}
-			else
+			elseif ( ! empty ($old_id) )
 			{	// check if title is unique in DB. 
 					$query = "
 					SELECT id
@@ -213,17 +236,23 @@ switch ($action) {
 			
 			$text_tags = htmlspecialchars( $text_tags );
 
-			if (  ! empty ( $_FILES['file_input']['error'] ) )
+
+			
+			if (  ! empty ( $_FILES['file_input']['error'] ) && empty ( $old_id )  )
 			{	// check if the file is loaded correctly
 				$error_file_input = '{{$error_file_upload}}';
+				$error = true;
 			}
-			else
+			elseif ( empty ( $old_id ) )
 			{
 				if ( ! is_image( $_FILES['file_input']['type'] ) )
 				{	// check if the file is an image or not
 					$error_file_input = '{{error_file_no_image}}';
+					$error = true;
 				}
 			}
+			
+		
 			
 			//$error = true;
 			if ($error)
@@ -233,6 +262,9 @@ switch ($action) {
 			}
 			else
 			{	// insert to db
+				
+				if (  empty ($old_id) )
+				{
 					$new_filename = substr(md5(uniqid(rand(), true)), 0, rand(7, 13));
 					$filename_old = basename($_FILES['file_input']['name']);
 					$result = array ();
@@ -320,6 +352,13 @@ switch ($action) {
 						$key = set_session_key();
 						$error_file_input = '{{error_file_no_copy}}';
 					}
+				}
+				else
+				{	// update entry
+					
+					
+					
+				}
 			}					
 		}
 		break;		
