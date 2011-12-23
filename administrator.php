@@ -480,6 +480,59 @@ switch ($action) {
 		$location = "Location: /administrator.php";
 		header($location); /* Redirect browser */
 		break;
+		
+	case 'add_user':
+
+			
+		$error_name = '';
+		$name_input = '';
+			
+		$error_password = '';
+			
+		if ( ! empty ( $_POST['submit'] ) )
+		{	// form validation
+			$error = array();
+			
+			$name_input = $_POST['name_input'];
+			
+			if ( empty( $name_input ) ||  preg_match("/([^a-z0-9_])/i", $name_input ) )
+			{	// validate name, it should not contain nothing else except letters, numbers, space and underlines
+				$error[] = true;
+				$error_name = '{{error_name_not_correct}}';
+			}
+			
+			$password1 = $_POST['password1'];
+			$password2 = $_POST['password2'];
+			
+			if ($password1 ==! $password2 )
+			{
+				$error[] = true;
+				$error_name = '{{error_password_not_eq}}';			
+			}
+			else
+			{
+				if ( empty( $password1 ) ||  preg_match("/([^a-z0-9_])/i", $password1 ) )
+				{	// validate pass, it should not contain nothing else except letters, numbers, space and underlines
+					$error[] = true;
+					$error_name = '{{error_password_empty}}';
+				}
+				else
+				{
+					
+				}
+
+			}
+			
+			
+		}
+		else
+		{
+				$key = set_session_key();
+				$layout = "add_user.php";				
+		}
+			
+		
+		break;
 	
 }
 
