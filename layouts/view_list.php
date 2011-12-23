@@ -47,9 +47,9 @@
 						?>
 							<tr>
 								<td><?php echo $value['id']; ?></td>
-								<td><?php echo $value['title'];?></td>
+								<td><a href="/<?php echo urlencode(str_replace(" ", '-', $value['title'] ))?>" ><?php echo htmlspecialchars( $value['title'] );?></a></td>
 								<td><?php echo $value['updated'];?> </td>
-								<td><a href="/administrator.php?action=remove_entry&id=<?php echo $value['id']; ?>">{{remove}}</a></td>
+								<td><a class="remove" href="/administrator.php?action=remove_entry&id=<?php echo $value['id']; ?>">{{remove}}</a></td>
 								<td><a href="/administrator.php?action=edit_entry&id=<?php echo $value['id']; ?>">{{edit}}</a></td>
 							</tr>
 						<?php

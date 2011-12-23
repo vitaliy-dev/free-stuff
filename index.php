@@ -42,7 +42,7 @@ switch ($action) {
 	case 'view_list_front':
 		
 		$offsset = 0;
-		$limit = 20;
+		$limit = 2;
 		$count = 0;
 		$pagination = 0;
 		$results = array();
@@ -57,13 +57,22 @@ switch ($action) {
 		{
 			$count = $count_results[0]['count'];
 			$pagination = (int)($count/$limit);
+			if ( $count % $limit == 0 )
+			{
+				$pagination = $pagination - 1;
+				
+				if ( $pagination < 0 )
+				{
+					$pagination = 0;
+				}
+			}
 		}
 		
 		if ( ! empty( $_GET['start_offset'] ) )
 		{
 			$offsset_pagination = (int)$_GET['start_offset'];
 			
-			if ($offsset_pagination < 0)
+			if ( $offsset_pagination < 0 )
 			{
 				$offsset_pagination = 0;
 			}
@@ -196,7 +205,7 @@ else
 }
 		
 $html_output = ob_get_clean();
-echo $html_output;
-//$M = new Mustache;
-//echo $M->render($html_output, $Lang);
+//echo $html_output;
+$M = new Mustache;
+echo $M->render($html_output, $Lang);
 ?>

@@ -496,6 +496,6 @@ else
 		
 $html_output = ob_get_clean();
 echo $html_output;
-//$M = new Mustache;
+$M = new Mustache;
 //echo $M->render($html_output, $Lang);
 ?>

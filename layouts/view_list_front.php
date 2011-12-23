@@ -79,7 +79,7 @@
 										
 									if ($offsset_pagination != 0)
 									{
-										echo '<li class="prev "><a href="/?start_offset='.($offsset_pagination - 1).'">&larr; Previous</a></li>';		
+										echo '<li class="prev "><a href="/?start_offset='.($offsset_pagination - 1).'">&larr; {{previous}}</a></li>';		
 									}
 											
 
@@ -99,7 +99,7 @@
 									
 									if ($offsset_pagination != $pagination)
 									{
-										echo '<li class="next"><a href="/?start_offset='.($offsset_pagination + 1).'">Next &rarr;</a></li>';
+										echo '<li class="next"><a href="/?start_offset='.($offsset_pagination + 1).'">{{next}} &rarr;</a></li>';
 									}
 									
 									?>

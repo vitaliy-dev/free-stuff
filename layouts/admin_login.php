@@ -84,7 +84,7 @@
 				
 				<div class="row">				
 					<div class="span5 offset6">
-						<input class="btn large primary" type="submit" name="submit" value="{{input_submit}}"></input>
+						<input class="btn large primary" type="submit" name="submit" value="{{input_login}}"></input>
 					</div>
 				</div>
 				  
