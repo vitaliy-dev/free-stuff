@@ -1,7 +1,3 @@
 		  <div class="span15">
-			  Footer Footer Footer Footer Footer Footer
-		  		  Footer Footer Footer Footer Footer Footer
-				  		  Footer Footer Footer Footer Footer Footer
-						  		  Footer Footer Footer Footer Footer Footer
-								  		  Footer Footer Footer Footer Footer Footer
-		  </div>
+			  <img class="thumbnail" alt="" src="http://placehold.it/940x100">
+		  </div> 

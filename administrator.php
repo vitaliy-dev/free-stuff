@@ -133,7 +133,7 @@ switch ($action) {
 		
 		$content .="</tbody></table>";
 		
-		$layout = "admin.php";
+		$layout = "view_list.php";
 		
 		break;
 	
