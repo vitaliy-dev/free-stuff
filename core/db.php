@@ -96,9 +96,9 @@ class Db
 			throw new Exception(mysql_error());
 		}
 
-		$query =  strtoupper($query);
-		
-		if ( strpos( $query, 'INSERT') || strpos( $query, 'DELETE' ) || strpos( $query, 'UPDATE') || strpos( $query, 'REPLACE') )
+		$query =  trim (strtoupper( $query ) );
+	
+		if ( ( strpos( $query, 'INSERT') === 0 ) || ( strpos( $query, 'DELETE' ) === 0 ) || ( strpos( $query, 'UPDATE') === 0 ) ||  ( strpos( $query, 'REPLACE') === 0 ) )
 		{
 			$this->insert_id = mysql_insert_id($this->link);
 			$this->rows_affected = mysql_affected_rows($this->link);

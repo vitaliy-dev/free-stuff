@@ -166,7 +166,7 @@ switch ($action) {
 		{
 			$title_input = $_POST['title_input'];
 			
-			if ( empty( $title_input ) ||  preg_match("/([^\s-a-z0-9_])/i", $title_input ) )
+			if ( empty( $title_input ) ||  preg_match("/([^\sa-z0-9_])/i", $title_input ) )
 			{	// validate title, it should not contain nothing else except letters, numbers, space and underlines
 				$error[] = true;
 				$error_title = '{{error_title}}';
