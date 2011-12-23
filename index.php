@@ -82,7 +82,59 @@ switch ($action) {
 			
 			// form validation
 			
+			$error_name = '';
+			$name_input = '';
 			
+			$error_email = '';
+			$email_input = '';
+			
+			$error_comment = '';
+			$text_comment = '';
+			
+			if ( ! empty ( $_POST['submit'] ) )
+			{	// form validation
+				$error = array();
+				
+				$name_input = htmlspecialchars( $_POST['name_input'] );
+				
+				$email_input = $_POST['email_input'];
+				
+				if ( !empty ($email_input) && ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email_input) )
+				{
+					$error[] = true;
+					$email_input = htmlspecialchars($email_input);
+					$error_email = "{{not_valid_email}}";
+				}
+				
+				$text_comment = htmlspecialchars( $_POST['comment'] );
+				
+				if ( empty ( $comment ) )
+				{
+					$error[] = true;
+					$error_comment = "{{empty_comment}}";
+				}
+				
+				if ( empty ($error) )
+				{	// insert comment to db
+					
+					if ( ! empty ( $User->id ) )
+					{
+						$user_id = $User->id;
+					}
+					else
+					{
+						$user_id = 'NULL';
+					}
+					
+					$query = "	INSERT INTO comments(user_id, name, email, entry_id, text)
+								VALUES (". $user_id .",". $DB->quote($name_input) .", ". $DB->quote($email_input) .", ". $DB->quote($_POST['id']) .", ". $DB->quote($text_comment) .")";
+					$DB->query($query);
+					
+					$text_comment = '';
+					
+				}
+		
+			}
 			
 			
 			$query = "SELECT *
@@ -93,15 +145,6 @@ switch ($action) {
 			$comments = $DB->get_results($query);
 			
 			$key = set_session_key();
-			
-			$error_name = '';
-			$name_input = '';
-			
-			$error_email = '';
-			$email_input = '';
-			
-			$error_comment = '';
-			$text_comment = '';
 			
 			$layout = "singl_entry.php";
 		}

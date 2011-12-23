@@ -87,7 +87,7 @@
 							}
 						?>	
 					</div>
-			  		<form method="post" action="/index.php">
+			  		<form method="post" action="">
 				<input type="hidden" name="key" value="<?php echo $key?>"/>
 				<input type="hidden" name="action" value="add_comment"/>
 				<input type="hidden" name="id" value=" <?php echo $entry['id'];?>"/>
@@ -132,7 +132,7 @@
 						<div class="clearfix <?php echo $error_comment != '' ? "error" : '';  ?>">
 							<label for="textarea">{{input_comment}}</label>
 							<div class="input">
-							<textarea id="textarea" class="xlarge"  rows="3" name="email"><?php echo $text_comment; ?></textarea>
+							<textarea id="textarea" class="xlarge"  rows="3" name="comment"><?php echo $text_comment; ?></textarea>
 							<?php
 								if ( !empty ( $error_comment ) )
 								{
