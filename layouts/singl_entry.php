@@ -27,10 +27,6 @@
 	  </div>
 	  <div class="row">
 		  <div class="span14">
-			  <?php 
-				foreach ($results as $entry)
-				{
-					?>
 					<div class="row">
 						<div class="span14 border">
 							<div class="row">
@@ -63,10 +59,35 @@
 								</div>
 							</div>
 						</div>
+						<!-- comments block -->
+						<?php
+							if ( ! empty ( $comments ) )
+							{
+								foreach ( $comments as $comment )
+								{
+									?>
+									<div class="span14 border">
+									<div class="row">
+										<div class="span14">
+											<?php echo $comment['name']; ?>
+										</div>
+										<div class="span14">
+											<?php echo $comment['email']; ?>
+										</div>
+										<div class="span14">
+											<?php echo $comment['updated']; ?>
+										</div>
+
+									</div>
+								</div>
+								<?php	
+									
+								}
+							}
+							
+						?>	
 					</div>
-					<?php
-				}
-			  ?>
+
 		  </div>
 		  <div class="span2">
 				<?php require_once 'front_side_bar.php'; ?>

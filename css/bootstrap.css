@@ -2472,3 +2472,10 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 	width: 200px;
 	height: 200px;
 }
+
+.border
+{
+	border-bottom: 1px dashed #ccc;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+}

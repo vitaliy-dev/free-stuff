@@ -19,9 +19,9 @@ if ( ! empty ( $_REQUEST['action'] ) )
 	$action = $_REQUEST['action'];
 }
 
-if (! empty ( $URL ) )
+if (! empty ( $URL )  )
 {
-	$action = $_REQUEST['action'];
+	$action = 'view_details_front';
 }
 
 //$User = new User();
@@ -42,6 +42,7 @@ switch ($action) {
 	case 'view_list_front':
 		
 		$offsset = 0;
+		$results = array();
 		
 		if ( ! empty( $_GET['start_offset'] ) )
 		{
@@ -64,20 +65,30 @@ switch ($action) {
 		
 	case 'view_details_front':
 		
-		$offsset = 0;
+		$URL = $DB->quote( trim( $URL ) );
 		
-		if ( ! empty( $_GET['start_offset'] ) )
-		{
-			$offsset = $_GET['start_offset']; 
-		}
-		
-		$query = "SELECT *
-					FROM Entries
-					LIMIT ". $DB->escape($offsset). " , 20";
-		
+		$query = "SELECT e.*, GROUP_CONCAT(DISTINCT t.tag ORDER BY t.tag DESC SEPARATOR ' ') as tags
+				FROM Entries as e
+				INNER JOIN Entries_tags as entag on(e.id = entag.entry_id AND e.title = ". $URL .")
+				INNER JOIN Tags as t on(entag.tag_id = t.id)
+				GROUP BY e.id ";
+
 		$results = $DB->get_results($query);
-		
-		$layout = "view_list.php";
+
+		if ( ! empty ( $results ) )
+		{
+			$query = "SELECT *
+					FROM comments
+					WHERE entry_id = {$results[0]['id']}
+					ORDER BY updated ASC";
+
+			$comments = $DB->get_results($query);			
+			$layout = "singl_entry.php";
+		}
+		else
+		{
+			$layout = "404.html";		
+		}
 		
 		break;		
 	
