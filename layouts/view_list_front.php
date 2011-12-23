@@ -67,6 +67,53 @@
 					<?php
 				}
 			  ?>
+			<div class="row">
+					<div class="span14">
+							<?php
+								if ( $pagination != 0 )
+								{
+									?>
+								    <div class="pagination">
+										<ul>							
+									<?php
+										
+									if ($offsset_pagination != 0)
+									{
+										echo '<li class="prev "><a href="/?start_offset='.($offsset_pagination - 1).'">&larr; Previous</a></li>';		
+									}
+											
+
+									
+										for ( $i = 0; $i <= $pagination; $i++)
+										{
+											if ($i == $offsset_pagination)
+											{
+												echo '<li class="active"><a href="/?start_offset='.$i.'">'.$i.'</a></li>';
+											}
+											else
+											{
+												echo '<li class=""><a href="/?start_offset='.$i.'">'.$i.'</a></li>';
+											}
+										
+										}
+									
+									if ($offsset_pagination != $pagination)
+									{
+										echo '<li class="next"><a href="/?start_offset='.($offsset_pagination + 1).'">Next &rarr;</a></li>';
+									}
+									
+									?>
+										</ul>
+									</div>											
+									<?php
+									
+								}
+							?>
+
+						
+					</div>
+			</div>
+			 
 		  </div>
 		  <div class="span2">
 				<?php require_once 'front_side_bar.php'; ?>
