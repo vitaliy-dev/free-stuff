@@ -13,13 +13,10 @@ class Locale_EN extends Mustache
 	public $updated ='updated';
 	public $title = 'title';
 	
-	
 	public $input_title = "Enter a title";
 	public $error_title = 'Title should contain only letters, numbers, space characters and underlines';
 	public $input_description = 'Enter description';
 	public $error_description_empty = 'Description field cannot be empty';
-	
-
 
 	public $error_tags = 'Tag field can contain only letters, spaces, dashes and commas';
 	public $input_tags = 'Enter tags';
@@ -44,7 +41,14 @@ class Locale_EN extends Mustache
 	
 	public $input_comment = 'Enter your comment';
 	
+	public $error_name_not_correct = 'Username should contain only letters, numbers, and underlines';
+	public $error_username_not_unique = "This username is not unique. Please input another username";
 	
+	public $error_password_not_eq = 'Entered passwords do not match';
+	public $error_password_empty = 'Password field cannot be empty';
+	
+	public $input_password = 'Enter new password';
+	public $retype_password = 'Retype new password';
 	
 }
 
