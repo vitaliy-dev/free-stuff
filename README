@@ -1,0 +1,18 @@
+ I have done the main part of the task. Files are commited and also I have commited the DB structutre to DB folder
+ to run an application and set the settings of the DB write correct setting to this  /core/config_db.php file and here is its content:
+ 
+<?php
+$db_config = array(
+	"user"		=> "root",
+	"host"		=> "localhost",
+	"password"	=> "1111",
+	"database"	=> "test-task"
+);
+?>
+
+To enter the system please use:
+username: admin
+password: 12345
+
+To enter admin URL /administrator.php
+To enter frontend URL /index.php
