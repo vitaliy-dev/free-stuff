@@ -42,12 +42,38 @@ switch ($action) {
 	case 'view_list_front':
 		
 		$offsset = 0;
+		$limit = 20;
+		$count = 0;
+		$pagination = 0;
 		$results = array();
+		$offsset_pagination = 0;
+		
+
+		$query = "SELECT count(id) as count FROM Entries ";
+
+		$count_results = $DB->get_results($query);
+		
+		if ( ! empty ( $count_results ) )
+		{
+			$count = $count_results[0]['count'];
+			$pagination = (int)($count/$limit);
+		}
 		
 		if ( ! empty( $_GET['start_offset'] ) )
 		{
-			$offsset = $_GET['start_offset']; 
-		}
+			$offsset_pagination = (int)$_GET['start_offset'];
+			
+			if ($offsset_pagination < 0)
+			{
+				$offsset_pagination = 0;
+			}
+			
+			if ($offsset_pagination > $pagination )
+			{
+				$offsset_pagination = $pagination;
+			}
+			$offsset = $offsset_pagination * $limit; 
+		}		
 		
 		$query = "SELECT e.*, GROUP_CONCAT(DISTINCT t.tag ORDER BY t.tag DESC SEPARATOR ' ') as tags
 				FROM Entries as e
@@ -55,7 +81,7 @@ switch ($action) {
 				INNER JOIN Tags as t on(entag.tag_id = t.id)
 				GROUP BY e.id 
 				ORDER BY e.id 
-				LIMIT ". $DB->escape($offsset). " , 20";
+				LIMIT ". $DB->escape($offsset). " , $limit";
 
 		$results = $DB->get_results($query);
 		
