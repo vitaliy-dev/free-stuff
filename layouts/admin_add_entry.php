@@ -93,6 +93,23 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<div class="span4">
+						<div class="clearfix <?php echo $error_url != '' ? "error" : '';  ?>">
+								<label for="url_input">{{input_url}}</label>
+								<div class="input">
+								<input id="url_input" class="xlarge <?php echo $error_url != '' ? "error" : '';  ?>" type="text" size="40" name="url_input" value="<?php echo $text_url; ?>" >
+								<?php
+									if ( !empty ( $error_url ) )
+									{
+										echo '<span class="help-inline error">'.$error_url.'</span>';
+									}
+								?>	
+								</div>
+							</div>						
+					</div>
+				</div>
+				
 				<?php
 					if ( ! empty ($old_image) )
 					{

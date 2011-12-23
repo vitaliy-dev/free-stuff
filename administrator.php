@@ -110,29 +110,6 @@ switch ($action) {
 		
 		$results = $DB->get_results($query);
 		
-		$content = ' 
-		<table class="bordered-table zebra-striped">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>{{title}}</th>
-            <th>{{updated}}</th>
-			<th>{{remove}}</th>
-			<th>{{edit}}</th>
-          </tr>
-        </thead>
-        <tbody>';
-		
-		foreach ($results as $value) 
-		{
-			$content .= "<tr><td>{$value['id']}</td><td>{$value['title']}</td><td>". $value['updated'] ."</td>
-					<td><a href=\"/administrator.php?action=remove_entry&id=". $value['id'] ."\">". '{{remove}}'."</a></td>
-					<td><a href=\"/administrator.php?action=edit_entry&id=". $value['id'] ."\">". '{{edit}}'."</a></td>
-					</tr>";
-		}
-		
-		$content .="</tbody></table>";
-		
 		$layout = "view_list.php";
 		
 		break;
@@ -152,6 +129,9 @@ switch ($action) {
 		$error_tags = '';
 		$text_tags = '';
 			
+		$error_url = '';
+		$text_url = '';
+		
 		$error_file_input = '';
 
 		if ( ! empty ( $_REQUEST['id'] ) )
@@ -172,6 +152,7 @@ switch ($action) {
 				$old_image = $results[0]['image'];
 				$text_description = $results[0]['description'];
 				$text_tags = $results[0]['tags'];
+				$text_url = $results[0]['url'];
 			}
 		}
 		
@@ -242,7 +223,7 @@ switch ($action) {
 				$error_file_input = '{{$error_file_upload}}';
 				if ( empty ( $old_id ) )
 				{
-					$error = true;
+					$error[] = true;
 				}
 			}
 			else
@@ -252,10 +233,21 @@ switch ($action) {
 					$error_file_input = '{{error_file_no_image}}';
 					if ( empty ( $old_id ) )
 					{
-						$error = true;
+						$error[] = true;
 					}
 				}
 			}
+			
+			$text_url = $_POST['url_input'];
+			$text_url = strip_tags($text_url);
+			if ( ! preg_match("/^(?:([a-z]+):(?:([a-z]*):)?\/\/)?(?:([^:@]*)(?::([^:@]*))?@)?((?:[a-z0-9_-]+\.)+[a-z]{2,}|localhost|(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])\.){3}(?:(?:[01]?\d\d?|2[0-4]\d|25[0-5])))(?::(\d+))?(?:([^:\?\#]+))?(?:\?([^\#]+))?(?:\#([^\s]+))?$/i", $text_url ) )
+			{	// validate entered url
+				$error[] = true;
+				$error_url = '{{error_url}}';
+				
+			}
+			
+			
 			
 			//$error = true;
 			if ( ! empty ( $error ) )
@@ -281,8 +273,8 @@ switch ($action) {
 					{
 						$query = "
 							INSERT INTO
-							Entries (title, image, description) 
-							VALUES('".$DB->escape(htmlspecialchars_decode($title_input)) ."', '".$DB->escape($new_filename)."', '". $DB->escape($text_description) ."' );
+							Entries (title, image, description, url) 
+							VALUES('".$DB->escape(htmlspecialchars_decode($title_input)) ."', '".$DB->escape($new_filename)."', '". $DB->escape($text_description) ."' , ". $DB->quote($text_url) .");
 						";
 		
 						$DB->query($query);
@@ -381,7 +373,8 @@ switch ($action) {
 							UPDATE Entries 
 							SET	title= ".$DB->quote(htmlspecialchars_decode($title_input)) .", 
 								image= ".$DB->quote($old_image) .", 
-								description = ".$DB->quote($text_description)."
+								description = ".$DB->quote($text_description).", 
+								url = ".$DB->quote($text_url) ."
 							WHERE id = ". $DB->quote($old_id);
 		
 						$DB->query($query);

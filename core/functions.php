@@ -65,7 +65,21 @@ function is_image( $file_type )
 	return (in_array($file_type, $img_mimes, TRUE)) ? TRUE : FALSE;
 	}
 	
-	
+
+	function prep_url($str = '')
+	{
+		if ($str == 'http://' OR $str == '')
+		{
+			return '';
+		}
+
+		if (substr($str, 0, 7) != 'http://' && substr($str, 0, 8) != 'https://')
+		{
+			$str = 'http://'.$str;
+		}
+
+		return $str;
+	}	
 
 
 ?>
