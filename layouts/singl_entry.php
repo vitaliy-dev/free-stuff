@@ -77,18 +77,81 @@
 										<div class="span14">
 											<?php echo $comment['updated']; ?>
 										</div>
-
+										<div class="span14">
+											<?php echo $comment['text']; ?>
+										</div>
 									</div>
 								</div>
 								<?php	
-									
 								}
 							}
-							
 						?>	
 					</div>
+			  		<form method="post" action="/index.php">
+				<input type="hidden" name="key" value="<?php echo $key?>"/>
+				<input type="hidden" name="action" value="add_comment"/>
+				<input type="hidden" name="id" value=" <?php echo $entry['id'];?>"/>
+				
+				<div class="row">
+					<div class="span4">
+						<div class="clearfix <?php echo $error_name != '' ? "error" : '';  ?>">
+							<label for="name_input">{{input_name}}</label>
+							<div class="input">
+							<input id="name_input" class="xlarge error" type="text" size="30" name="name_input" value="<?php echo $name_input; ?>" >
+							<?php
+								if ( !empty ( $error_name ) )
+								{
+									echo '<span class="help-inline error">'.$error_name.'</span>';
+								}
+							?>	
+							</div>
+						</div>						
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="span4">
+						<div class="clearfix <?php echo $error_email != '' ? "error" : '';  ?>">
+							<label for="email_input">{{input_email}}</label>
+							<div class="input">
+							<input id="email_input" class="xlarge error" type="text" size="30" name="email_input" value="<?php echo $email_input; ?>" >
+							<?php
+								if ( !empty ( $error_email ) )
+								{
+									echo '<span class="help-inline error">'.$error_email.'</span>';
+								}
+							?>	
+							</div>
+						</div>						
+					</div>
+				</div>
 
+				<div class="row">
+					<div class="span4">
+
+						<div class="clearfix <?php echo $error_comment != '' ? "error" : '';  ?>">
+							<label for="textarea">{{input_comment}}</label>
+							<div class="input">
+							<textarea id="textarea" class="xlarge"  rows="3" name="email"><?php echo $text_comment; ?></textarea>
+							<?php
+								if ( !empty ( $error_comment ) )
+								{
+									echo '<span class="help-inline error">'.$error_comment.'</span>';
+								}
+							?>	
+							</div>
+						</div>						
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="span4 offset4">
+						<input class="btn primary" type="submit" name="submit" value="{{input_submit}}"></input>
+					</div>
+				</div>
+			</form>				
 		  </div>
+
 		  <div class="span2">
 				<?php require_once 'front_side_bar.php'; ?>
 		  </div>

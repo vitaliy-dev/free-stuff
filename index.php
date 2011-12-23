@@ -64,8 +64,9 @@ switch ($action) {
 		break;
 		
 	case 'view_details_front':
+	case 'add_comment':
 		
-		$URL = $DB->quote( trim( $URL ) );
+		$URL = $DB->quote( str_replace('-', ' ', ( trim( $URL ) ) ) );
 		
 		$query = "SELECT e.*, GROUP_CONCAT(DISTINCT t.tag ORDER BY t.tag DESC SEPARATOR ' ') as tags
 				FROM Entries as e
@@ -75,14 +76,33 @@ switch ($action) {
 
 		$results = $DB->get_results($query);
 
-		if ( ! empty ( $results ) )
+		if ( ! empty ( $results[0] ) )
 		{
+			$entry = $results[0];
+			
+			// form validation
+			
+			
+			
+			
 			$query = "SELECT *
 					FROM comments
-					WHERE entry_id = {$results[0]['id']}
+					WHERE entry_id = {$entry['id']}
 					ORDER BY updated ASC";
 
-			$comments = $DB->get_results($query);			
+			$comments = $DB->get_results($query);
+			
+			$key = set_session_key();
+			
+			$error_name = '';
+			$name_input = '';
+			
+			$error_email = '';
+			$email_input = '';
+			
+			$error_comment = '';
+			$text_comment = '';
+			
 			$layout = "singl_entry.php";
 		}
 		else
@@ -92,10 +112,7 @@ switch ($action) {
 		
 		break;		
 	
-	case 'add_comment':
 
-
-	
 }
 
 
