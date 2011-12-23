@@ -483,7 +483,7 @@ switch ($action) {
 		
 	case 'add_user':
 
-			
+		$layout = "add_user.php";	
 		$error_name = '';
 		$name_input = '';
 			
@@ -500,6 +500,23 @@ switch ($action) {
 				$error[] = true;
 				$error_name = '{{error_name_not_correct}}';
 			}
+			else
+			{
+					$query = "
+					SELECT id
+					FROM Users
+					WHERE name ='" .$DB->escape($name_input) ."' 
+					LIMIT 1";
+		
+					$results = $DB->get_results($query);
+					
+					if ( ! empty ( $results ) )
+					{
+						$error[] = true;
+						$error_name = '{{error_username_not_unique}}';
+					}
+				
+			}
 			
 			$password1 = $_POST['password1'];
 			$password2 = $_POST['password2'];
@@ -507,28 +524,39 @@ switch ($action) {
 			if ($password1 ==! $password2 )
 			{
 				$error[] = true;
-				$error_name = '{{error_password_not_eq}}';			
+				$error_pass = '{{error_password_not_eq}}';			
+			}
+		
+			if ( empty( $password1 ) ||  preg_match("/([^a-z0-9_])/i", $password1 ) )
+			{	// validate pass, it should not contain nothing else except letters, numbers, space and underlines
+				$error[] = true;
+				$error_pass = '{{error_password_empty}}';
+			}
+			
+			
+			if ( empty ( $error ) )
+			{
+				// insert in db
+				
+				$query = "
+				INSERT INTO Users( name, password )
+				VALUES (".$DB->quote($name_input).", ".$DB->quote(md5( $password1 ) ).")";
+				$DB->query($query);
+				
+				$location = "Location: /administrator.php";
+				header($location); /* Redirect browser */
+				break;
 			}
 			else
 			{
-				if ( empty( $password1 ) ||  preg_match("/([^a-z0-9_])/i", $password1 ) )
-				{	// validate pass, it should not contain nothing else except letters, numbers, space and underlines
-					$error[] = true;
-					$error_name = '{{error_password_empty}}';
-				}
-				else
-				{
-					
-				}
-
+				$key = set_session_key();
 			}
-			
-			
+
+		
 		}
 		else
 		{
-				$key = set_session_key();
-				$layout = "add_user.php";				
+			$key = set_session_key();
 		}
 			
 		
@@ -548,7 +576,7 @@ else
 }
 		
 $html_output = ob_get_clean();
-echo $html_output;
+//echo $html_output;
 $M = new Mustache;
-//echo $M->render($html_output, $Lang);
+echo $M->render($html_output, $Lang);
 ?>

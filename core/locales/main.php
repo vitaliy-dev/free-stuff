@@ -41,6 +41,15 @@ class Locale_EN extends Mustache
 	
 	public $input_comment = 'Enter your comment';
 	
+	public $error_name_not_correct = 'Username should contain only letters, numbers, and underlines';
+	public $error_username_not_unique = "This username is not unique. Please input another username";
+	
+	public $error_password_not_eq = 'Entered passwords do not match';
+	public $error_password_empty = 'Password field cannot be empty';
+	
+	public $input_password = 'Enter new password';
+	public $retype_password = 'Retype new password';
+	
 }
 
 class Locale_RU extends Mustache 
