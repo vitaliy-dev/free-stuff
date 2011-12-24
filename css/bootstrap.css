@@ -941,6 +941,8 @@ textarea[readonly] {
   font-size: 13px;
   line-height: 18px;
   color: #bfbfbf;
+  display: block;
+  width: 280px;
 }
 .help-inline {
   padding-left: 5px;
