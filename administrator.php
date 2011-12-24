@@ -524,13 +524,13 @@ switch ($action) {
 			if ($password1 ==! $password2 )
 			{
 				$error[] = true;
-				$error_pass = '{{error_password_not_eq}}';			
+				$error_password = '{{error_password_not_eq}}';			
 			}
 		
 			if ( empty( $password1 ) ||  preg_match("/([^a-z0-9_])/i", $password1 ) )
 			{	// validate pass, it should not contain nothing else except letters, numbers, space and underlines
 				$error[] = true;
-				$error_pass = '{{error_password_empty}}';
+				$error_password = '{{error_password_empty}}';
 			}
 			
 			

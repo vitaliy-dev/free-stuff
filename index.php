@@ -42,7 +42,7 @@ switch ($action) {
 	case 'view_list_front':
 		
 		$offsset = 0;
-		$limit = 2;
+		$limit = 20;
 		$count = 0;
 		$pagination = 0;
 		$results = array();
@@ -57,7 +57,7 @@ switch ($action) {
 		{
 			$count = $count_results[0]['count'];
 			$pagination = (int)($count/$limit);
-			if ( $count % $limit == 0 )
+			if ( $count % $limit === 0 )
 			{
 				$pagination = $pagination - 1;
 				

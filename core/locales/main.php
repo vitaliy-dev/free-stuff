@@ -50,6 +50,8 @@ class Locale_EN extends Mustache
 	public $input_password = 'Enter new password';
 	public $retype_password = 'Retype new password';
 	
+	public $error_session_key = 'Secret key expired. Please reload form page';
+	
 }
 
 class Locale_RU extends Mustache 
